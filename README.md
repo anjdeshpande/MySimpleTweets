@@ -29,7 +29,7 @@ Completed user stories:
 
  Walkthrough of all user stories:
 
-![Video Walkthrough] (MySimpleTweets.gif)
+![Video Walkthrough] (MySimpleTweets1.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
