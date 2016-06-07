@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,6 +34,8 @@ public class PostTweets extends AppCompatActivity {
     private TextView tvOwnerScreenName;
     private TextView tvCharCount;
     private User user;
+
+    private static final int RESULT_OK = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,8 @@ public class PostTweets extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 // deserialize json and create models add to adapter
-                setResult(200);
+                Intent data = new Intent();
+                setResult(RESULT_OK, data);
                 finish();
             }
 

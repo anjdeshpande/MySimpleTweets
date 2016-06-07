@@ -1,6 +1,9 @@
 package com.codepath.apps.mysimpletweets.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,7 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 // Parse JSON and display data
-public class Tweet {
+public class Tweet implements Parcelable {
 
     private User user;
     private String body;
@@ -69,5 +72,15 @@ public class Tweet {
         }
 
         return tweets;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

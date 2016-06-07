@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 123;
+    private static final int RESULT_OK = 200;
+
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
@@ -112,13 +115,16 @@ public class TimelineActivity extends AppCompatActivity {
         }, sinceId);
     }
 
-    // Append more data into the adapter
-    public void customLoadMoreDataFromApi(int offset) {
-        // This method probably sends out a network request and appends new data items to your adapter.
-        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
-        // Deserialize API response and then construct new objects to append to the adapter
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            tweets = new ArrayList<Tweet>();
+            aTweets = new TweetsArrayAdapter(TimelineActivity.this, tweets);
+            lvTweets.setAdapter(aTweets);
+            populateTimeline(1);
+        }
     }
+
 
     // fake a network operation's delayed response
     // this is just for demonstration, not real code!
@@ -150,7 +156,8 @@ public class TimelineActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_compose) {
             //showEditDialog();
             Intent i = new Intent(this,PostTweets.class);
-            startActivity(i);
+            //startActivity(i);
+            startActivityForResult(i, REQUEST_CODE);
 
             return true;
         }
@@ -160,7 +167,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onTweetClick(View view) {
         Intent i = new Intent(this,PostTweets.class);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_CODE);
     }
 
     public void clickReply(View v)
