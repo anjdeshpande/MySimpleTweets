@@ -1,13 +1,13 @@
-package com.codepath.apps.mysimpletweets.restEndpoints;
+package com.codepath.apps.advancedtwitterclient.restEndpoints;
 
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -49,7 +49,7 @@ public class TwitterClient extends OAuthBaseClient {
     public void getHomeTimeline(AsyncHttpResponseHandler handler, int sinceId) {
         String apiUrl = REST_URL + "/statuses/home_timeline.json";
         RequestParams params = new RequestParams();
-        params.put ("count", 25);
+        params.put ("count", 50);
         params.put ("since_id", sinceId);
 
         // Execute the request
@@ -70,15 +70,27 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl,null,handler);
 	}
 
-	// URL = https://api.twitter.com/1.1/favorites/create.json
-	// id=243138128959913986
+	public void getMentionsTimeline(JsonHttpResponseHandler handler) {
+		String apiUrl = REST_URL + "/statuses/mentions_timeline.json";
+		RequestParams params = new RequestParams();
+		params.put ("count", 25);
 
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
+		// Execute the request
+		getClient().get(apiUrl, params, handler);
+	}
+
+    public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler) {
+        String apiUrl = REST_URL + "/statuses/user_timeline.json";
+        RequestParams params = new RequestParams();
+        params.put ("count", 25);
+        params.put ("screen_name", screenName);
+
+        // Execute the request
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getUserInfo(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("account/verify_credentials.json");
+		client.get(apiUrl,null,handler);
+    }
 }

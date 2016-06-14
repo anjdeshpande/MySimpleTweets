@@ -1,10 +1,8 @@
-package com.codepath.apps.mysimpletweets.adapters;
+package com.codepath.apps.advancedtwitterclient.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.apps.mysimpletweets.R;
-import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.codepath.apps.advancedtwitterclient.R;
+import com.codepath.apps.advancedtwitterclient.models.Tweet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

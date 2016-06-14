@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.restEndpoints;
+package com.codepath.apps.advancedtwitterclient.restEndpoints;
 
 import android.content.Context;
 

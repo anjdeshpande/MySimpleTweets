@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.fragments;
+package com.codepath.apps.advancedtwitterclient.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.advancedtwitterclient.R;
 
 /**
  * Created by adeshpa on 6/5/16.

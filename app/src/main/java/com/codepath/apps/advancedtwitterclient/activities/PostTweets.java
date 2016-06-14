@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.activities;
+package com.codepath.apps.advancedtwitterclient.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.apps.mysimpletweets.R;
-import com.codepath.apps.mysimpletweets.models.Tweet;
-import com.codepath.apps.mysimpletweets.models.User;
-import com.codepath.apps.mysimpletweets.restEndpoints.TwitterApplication;
-import com.codepath.apps.mysimpletweets.restEndpoints.TwitterClient;
+import com.codepath.apps.advancedtwitterclient.R;
+import com.codepath.apps.advancedtwitterclient.models.User;
+import com.codepath.apps.advancedtwitterclient.restEndpoints.TwitterApplication;
+import com.codepath.apps.advancedtwitterclient.restEndpoints.TwitterClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;

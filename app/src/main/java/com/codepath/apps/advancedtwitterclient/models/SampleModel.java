@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.models;
+package com.codepath.apps.advancedtwitterclient.models;
 
 import java.util.List;
 
