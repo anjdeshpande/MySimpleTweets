@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -22,7 +26,8 @@ import com.codepath.apps.advancedtwitterclient.fragments.MentionsTimelineFragmen
 public class TimelineActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 123;
     private static final int RESULT_OK = 200;
-    FragmentPagerAdapter adapterViewPager;
+    // Instance of the progress action-view
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +38,6 @@ public class TimelineActivity extends AppCompatActivity {
         //getSupportActionBar().setTitle("My new title");
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        // Set a toolbar to replace the action bar.
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setNavigationIcon(R.drawable.ic_twitter);
-        //setSupportActionBar(toolbar);
-
-        // Remove default title text
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // Get access to the custom title view
-        //TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         ViewPager vpPager = (ViewPager)findViewById(R.id.viewpager);
         vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
@@ -78,16 +64,22 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.miCompose:
-                //showEditDialog();
                 Intent i = new Intent(this,PostTweets.class);
-                //startActivity(i);
                 startActivityForResult(i, REQUEST_CODE);
-                //navigateToUrl ("codepath.com");
-                Toast.makeText(this, "Menu item tapped !", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
@@ -103,6 +95,14 @@ public class TimelineActivity extends AppCompatActivity {
     public void onTweetClick(View view) {
         Intent i = new Intent(this,PostTweets.class);
         startActivityForResult(i, REQUEST_CODE);
+    }
+
+    public void showUserDetails(View view) {
+        TextView tvScreenName = (TextView)view;
+        String screenName = tvScreenName.getText().toString();
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("screen_name", screenName);
+        startActivity(i);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
@@ -136,5 +136,14 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
 
 }

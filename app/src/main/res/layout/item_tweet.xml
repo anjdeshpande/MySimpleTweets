@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Screen Name"
                 android:id="@+id/tvScreenName"
+                android:onClick="showUserDetails"
                 android:textColor="#8899a6"
                 android:layout_marginLeft="3dp"
                 android:textSize="9dp" />
@@ -84,8 +85,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:autoLink="all"
-            android:linksClickable="true"
-        />
+            android:linksClickable="true" />
     </LinearLayout>
 
     <LinearLayout

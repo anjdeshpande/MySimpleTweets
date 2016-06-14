@@ -1,7 +1,10 @@
 package com.codepath.apps.advancedtwitterclient.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by adeshpa on 6/4/16.
@@ -11,9 +14,10 @@ public class User {
     private long uid;
     private String screenName;
     private String profileImageUrl;
+    private String tagline;
     private String status;
-    private String followers;
-    private String following;
+    private int followers;
+    private int following;
     private String statusCount;
 
     public String getName() {
@@ -36,16 +40,20 @@ public class User {
         return status;
     }
 
-    public String getFollowers() {
+    public int getFollowers() {
         return followers;
     }
 
-    public String getFollowing() {
+    public int getFollowing() {
         return following;
     }
 
     public String getStatusCount() {
         return statusCount;
+    }
+
+    public String getTagline() {
+        return tagline;
     }
 
     public static User fromJson(JSONObject json) {
@@ -57,13 +65,31 @@ public class User {
             user.screenName = "@" + json.getString("screen_name");
             user.profileImageUrl = json.getString("profile_image_url");
             user.status = json.getString("description");
-            user.followers= json.getString("followers_count");
-            user.following= json.getString("friends_count");
+            user.followers= json.getInt("followers_count");
+            user.following= json.getInt("friends_count");
             user.statusCount = json.getString("statuses_count");
+            user.tagline = json.getString("description");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return user;
+    }
+
+    public static ArrayList<User> fromJSONArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i=0; i<jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                User user = User.fromJson(jsonObject);
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return users;
     }
 }

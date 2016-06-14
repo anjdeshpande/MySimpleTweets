@@ -64,7 +64,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         }
 
         // Populate data into the template view using the data object
-        viewHolder.tvUserName.setText(tweet.getUser().getScreenName());
+        viewHolder.tvUserName.setText(tweet.getUser().getName());
         viewHolder.tvBody.setText(tweet.getBody());
         Glide.with(getContext())
                 .load(Uri.parse(tweet.getUser().getProfileImageUrl()))

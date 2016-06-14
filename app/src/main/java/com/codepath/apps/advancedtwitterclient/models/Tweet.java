@@ -19,6 +19,29 @@ public class Tweet implements Parcelable {
     private String createdAt;
     private int favoriteCount;
 
+    protected Tweet(Parcel in) {
+        body = in.readString();
+        uid = in.readLong();
+        createdAt = in.readString();
+        favoriteCount = in.readInt();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        @Override
+        public Tweet createFromParcel(Parcel in) {
+            return new Tweet(in);
+        }
+
+        @Override
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
+
+    public Tweet() {
+
+    }
+
     public int getFavoriteCount() { return favoriteCount;}
 
     public String getBody() {
@@ -67,10 +90,7 @@ public class Tweet implements Parcelable {
                 e.printStackTrace();
                 continue;
             }
-
-
         }
-
         return tweets;
     }
 
@@ -81,6 +101,9 @@ public class Tweet implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(body);
+        dest.writeLong(uid);
+        dest.writeString(createdAt);
+        dest.writeInt(favoriteCount);
     }
 }

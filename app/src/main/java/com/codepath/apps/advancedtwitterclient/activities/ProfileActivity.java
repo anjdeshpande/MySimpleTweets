@@ -1,6 +1,8 @@
 package com.codepath.apps.advancedtwitterclient.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.codepath.apps.advancedtwitterclient.R;
+import com.codepath.apps.advancedtwitterclient.fragments.UserHeaderFragment;
 import com.codepath.apps.advancedtwitterclient.fragments.UserTimelineFragment;
 import com.codepath.apps.advancedtwitterclient.models.User;
 import com.codepath.apps.advancedtwitterclient.restEndpoints.TwitterApplication;
@@ -19,6 +22,8 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 123;
+    private static final int RESULT_OK = 200;
     TwitterClient client;
     User user;
 
@@ -28,47 +33,58 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         client = TwitterApplication.getRestClient();
         // get account info
-
-        client.getUserInfo(new JsonHttpResponseHandler( ) {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                user = User.fromJson(response);
-                // Current user account info
-                getSupportActionBar().setTitle(user.getScreenName());
-                populateUserHeader(user);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
-        });
+        boolean owner;
 
         // get screen name passed from activity launched it
         String screenName = getIntent().getStringExtra("screen_name");
+        ActionBar actionBar = getSupportActionBar();
+
+        if(screenName != null){
+            owner=false;
+            actionBar.setTitle(screenName);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        else{
+            owner = true;
+            actionBar.setTitle("My Profile");
+        }
+
         if (savedInstanceState == null) {
             UserTimelineFragment fragmentTimeline = UserTimelineFragment.newInstance(screenName);
+            UserHeaderFragment userHeaderFragment = UserHeaderFragment.newInstance(String.valueOf(owner),screenName);
+
             // Display user fragment in this activity - dynamic way
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, fragmentTimeline);
+            ft.replace(R.id.flUserHeader,userHeaderFragment);
             ft.commit();
         }
     }
 
     private void populateUserHeader(User user) {
+        // Load information from user object
     }
 
 
+    // Menu icons are inflated just as they were with actionbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.miCompose:
-                Toast.makeText(this, "Menu item tapped !", Toast.LENGTH_SHORT).show();
+            case R.id.menu_compose:
+                Intent i = new Intent(this,PostTweets.class);
+                startActivityForResult(i, REQUEST_CODE);
+                return true;
+
+            case R.id.home:
+                onBackPressed();
                 return true;
 
             default:
